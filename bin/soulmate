@@ -37,11 +37,19 @@ def load(type)
   puts "Loaded a total of #{total} items"
 end
 
+def add(type, item)
+  puts "Loading item of type #{type}..."
+  total = Soulmate::Loader.new(type).add(JSON.parse(item))
+  puts "Loaded a total of #{total} item"
+end
+
 parser.parse!
 
 case ARGV[0]
 when 'load'
   load ARGV[1]
+when 'add'
+  add ARGV[1], ARGV[2]
 else
   puts parser.help
 end

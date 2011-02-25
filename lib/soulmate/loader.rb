@@ -40,5 +40,26 @@ module Soulmate
 
       items_loaded
     end
+
+    def add(item)
+      id    = item["id"]
+      term  = item["term"]
+      score = item["score"]
+
+      items_loaded = 0
+      if id and term
+        # store the raw data in a separate key to reduce memory usage
+        Soulmate.redis.hset(database, id, JSON.dump(item))
+
+        prefixes_for_phrase(term).each do |p|
+          Soulmate.redis.sadd(base, p) # remember this prefix in a master set
+          Soulmate.redis.zadd("#{base}:#{p}", score, id) # store the id of this term in the index
+        end
+        items_loaded += 1
+      end
+
+      items_loaded
+    end
+
   end
 end
