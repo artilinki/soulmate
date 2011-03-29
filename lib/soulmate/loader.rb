@@ -38,6 +38,8 @@ module Soulmate
         puts "added #{i} entries" if i % 100 == 0 and i != 0
       end
 
+      Soulmate.redis.del(cachebase)
+
       items_loaded
     end
 
@@ -57,6 +59,8 @@ module Soulmate
         end
         items_loaded += 1
       end
+
+      Soulmate.redis.del(cachebase)
 
       items_loaded
     end

@@ -43,6 +43,12 @@ def add(type, item)
   puts "Loaded a total of #{total} item"
 end
 
+def del(type, items)
+  puts "Delete item of type #{type}..."
+  total = Soulmate::Eraser.new(type).del(JSON.parse(items))
+  puts "Deleted a total of #{total} item"
+end
+
 parser.parse!
 
 case ARGV[0]
@@ -50,6 +56,8 @@ when 'load'
   load ARGV[1]
 when 'add'
   add ARGV[1], ARGV[2]
+when 'del'
+  del ARGV[1], ARGV[2]
 else
   puts parser.help
 end
