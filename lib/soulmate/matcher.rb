@@ -18,7 +18,7 @@ module Soulmate
       end
 
       ids = Soulmate.redis.zrevrange(cachekey, 0, options[:limit] - 1)
-      ids.size > 0 ? Soulmate.redis.hmget(database, *ids).map { |r| JSON.parse(r) } : []
+      ids.size > 0 ? Soulmate.redis.hmget(database, *ids).map { |r| (r.nil? ? [] : JSON.parse(r)) } : []
     end
   end
 end
